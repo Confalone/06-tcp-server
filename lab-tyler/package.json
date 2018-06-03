@@ -1,0 +1,17 @@
+{
+  "name": "lab-tyler",
+  "version": "1.0.0",
+  "description": "TCP Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose --coverage",
+    "lint": "eslint **/*.js",
+    "start": "node index.js"
+  },
+  "author": "Tyler Confalone",
+  "license": "MIT",
+  "dependencies": {
+    "eslint": "^4.19.1",
+    "jest": "^23.1.0"
+  }
+}
