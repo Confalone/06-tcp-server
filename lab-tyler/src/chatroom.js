@@ -10,7 +10,7 @@ let users = [];
 class User {
   constructor(socket) {
     this.id = faker.random.uuid();
-    this.nickname = faker.name.jobTitle();
+    this.name = faker.name.jobTitle();
     this.socket = socket;
     users.push(this);
   }
@@ -80,6 +80,41 @@ let commandParser = (message, socket) => {
 };
 
 
+server.on('connection', (socket) => {
+  new User(socket);
+  let screenName;
+  users.forEach(user => {
+    if (user.socket === socket) {
+      screenName = user.name;
+    }
+  });
+  socket.write(`Welcome to my World\n`);
+  socket.write(`Hello ${screenName}\n`);
+
+  socket.on('data', (data) => {
+    users.forEach(user => {
+      if(user.socket === socket) {
+        screenName = user.name;
+      }
+    });
+    let message = data.toString().trim();
+
+    if (commandParser(message,socket))
+      return;
+
+    for (let user of users) {
+      if(user.socket !== socket)
+        user.socket.write(`${screenName}: ${message}\n`);
+    }
+  });
+  let removeUser = (socket) => () => {
+    users = users.filter((user) => {
+      return user.socket !== socket;
+    });
+  };
+  socket.on('error', removeUser(socket));
+  socket.on('close', removeUser(socket));
+});
 
 const app = module.exports = {};
 
