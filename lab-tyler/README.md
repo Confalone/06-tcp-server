@@ -12,4 +12,3 @@
 * `@list` - will print out a list of all users current in chatroom
 * `@nickname <your-new-nickname>` - will allow user to choose their displayed name
 * `@dm <recipient-username> <your-message>` - to send a direct message to one other user
-
